@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Vue from 'vue'
 
 axios.defaults.baseURL = 'api'
 
@@ -10,7 +11,6 @@ axios.defaults.baseURL = 'api'
 
 export async function request(options) {
     console.log('api.js run request')
-    console.log(options)
     let response
     try {
         response = await axios(options.url, {
@@ -19,7 +19,49 @@ export async function request(options) {
             data: options.body
         })
     } catch (e) {
-        throw new Error(e)
+        console.log('catch error')
+        this.$throw(e)
     }
     return response
 }
+
+const errorHandler = (error, vm, info) => {
+    console.log('error handler')
+}
+
+// 响应拦截器
+axios.interceptors.response.use(function (response) {
+    console.log('axios work')
+    return response;
+}, function (error) {  
+    console.log(error.response);  // 对响应错误做点什么
+    let response = error.response
+
+    if (response.status != 200) {
+        console.log('error happened')
+        switch(response.status) {
+            case 201:
+                handleException(response)
+            case 204:
+                handleException(response)
+            case 401:
+                handleException(response)
+            case 403:
+                handleException(response)
+            case 404:
+                handleException(response)
+            default:
+                handleException(response)
+        }
+    }
+    // return Promise.reject(error);
+});
+
+function handleException (response) {
+    console.log('default')
+    console.log('<<<' + response.status + '>>>' + response.statusText)
+    throw new Error(response.data)
+}
+
+Vue.config.errorHandler = errorHandler
+Vue.prototype.$throw = (error) => errorHandler(error, this)
