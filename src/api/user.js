@@ -15,10 +15,10 @@ export async function login(body) {
     })
 }
 
-export async function logout(body) {
+export async function logout() {
     return await request({
         url: api_urls.user_logout,
-        body: body,
+        body: {},
         method: 'post',
     })
 }

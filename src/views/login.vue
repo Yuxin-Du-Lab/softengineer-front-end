@@ -41,9 +41,7 @@ export default {
     },
 
     async myLogout() {
-      let res = await logout({
-        Token: this.$store.getters.getTokenStored
-      });
+      let res = await logout();
       console.log(res);
       this.$store.commit('setTokenStored', '');   
       // console.log(this.$store.getters.getTokenStored)
