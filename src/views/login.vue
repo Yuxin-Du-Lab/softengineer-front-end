@@ -5,14 +5,22 @@
         <v-card>
           <v-card-title> 登陆 </v-card-title>
           <v-card-subtitle>
-            <v-row>
-              <v-col md="3">
-                <v-btn @click="myLogin"> 登陆测试 </v-btn>
-              </v-col>
-              <v-col md="3">
-                <v-btn @click="myLogout"> 登出测试 </v-btn>
-              </v-col>
-            </v-row>
+<!--            <v-row>-->
+<!--              <v-col md="3">-->
+<!--                <v-btn @click="myLogin"> 登陆测试 </v-btn>-->
+<!--              </v-col>-->
+<!--              <v-col md="3">-->
+<!--                <v-btn @click="myLogout"> 登出测试 </v-btn>-->
+<!--              </v-col>-->
+<!--            </v-row>-->
+            <div>
+              <v-text-field
+                  label="用户名"
+                  :rules="rules"
+                  hide-details="auto"
+              ></v-text-field>
+              <v-text-field label="密码"></v-text-field>
+            </div>
           </v-card-subtitle>
         </v-card>
       </v-col>
