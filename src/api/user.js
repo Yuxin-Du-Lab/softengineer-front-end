@@ -17,7 +17,7 @@ export async function login(body) {
 
 export async function logout(body) {
     return await request({
-        url: api_urls.user_login,
+        url: api_urls.user_logout,
         body: body,
         method: 'post',
     })
