@@ -4,8 +4,8 @@
     <v-row justify="center" align="center">
       <v-col md = "6">
         <v-card elevation="4" outlined shaped>
-          <p class="text-center font-italic" style="margin-top: 2rem">
-            steam
+          <p class="text-center font-italic" style="margin-top: 2rem; font-size:25px">
+            Electric
           </p>
 
           <v-form class="form">
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { login, logout } from "@/api/user.js";
+import { login } from "@/api/user.js";
 import {hex_md5} from '@/api/md5.js';
 
 export default {
@@ -104,14 +104,13 @@ export default {
         username: vm.username,
         password: hex_md5(vm.password),
       });
-      this.$store.commit('setTokenStored', res.data.token);    
-    },
-
-    async myLogout() {
-      let res = await logout();
-      console.log(res);
-      this.$store.commit('setTokenStored', '');   
-      // console.log(this.$store.getters.getTokenStored)
+      console.log(res)
+      if (res.data.token) {
+        this.$store.commit('setTokenStored', res.data.token);
+        this.$router.push({path: '/mainPage'})
+      } else {
+        alert(res.data.message)
+      }
     },
 
     async reserve() {
