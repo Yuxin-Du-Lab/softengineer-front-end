@@ -78,7 +78,7 @@ export default {
     },
 
     async myGetUser() {
-      const Token = this.$store.getters.getTokenStored;
+      const Token = this.$store.getters.TokenStored;
       if (Token == "") {
         this.visitingUserInfo = {};
         return;

@@ -37,6 +37,13 @@
           <v-col cols="1">
             <v-btn x-large app collapse-on-scroll @click="myLogout" to="/mainPage"> 注销 </v-btn>
           </v-col>
+          <v-col cols="2">
+            <v-card color="#385F73">
+              <v-card-subtitle>
+                {{ $store.getters.NickName ? $store.getters.NickName : '您尚未登陆' }}
+              </v-card-subtitle>
+            </v-card>
+          </v-col>
         </v-row>
       </v-container>
     </v-app-bar>
@@ -52,9 +59,10 @@ import { logout } from "@/api/user.js";
 export default {
   name: "home",
 
-  data: () => ({
-    //
-  }),
+  data () {
+    return {
+    }
+  },
 
   methods: {
     toHome() {
@@ -64,10 +72,10 @@ export default {
     },
 
     async myLogout() {
-      const Token = this.$store.getters.getTokenStored;
+      const Token = this.$store.getters.TokenStored;
       if ( Token ) {
         let res = await logout();
-        this.$store.commit('setTokenStored', '');
+        this.$store.commit('logout')
         alert('注销成功！')
       } else {
         alert('您尚未登陆')

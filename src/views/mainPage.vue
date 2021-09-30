@@ -1,7 +1,7 @@
 <template>
     <v-row>
         <v-col>
-            <p>MAIN</p>
+          <img class="flex align-content-center" src="@/assets/mainPagePicture.png"/>
         </v-col>
     </v-row>
 </template>

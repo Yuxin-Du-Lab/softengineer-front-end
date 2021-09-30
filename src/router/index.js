@@ -13,7 +13,7 @@ const routes = [
     path: '/',
     name: 'App',
     component: App,
-    // redirect:'/login',
+    redirect:'/mainPage',
     children: [
       {
         path: 'login',
@@ -44,5 +44,21 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+// Â·ÓÉÊØÎÀ
+// router.beforeEach((to, from, next) => {
+//
+//   if (to.path === '/login') {
+//     next();
+//   } else {
+//     let token = localStorage.getItem('Authorization');
+//
+//     if (token === null || token === '') {
+//       next('/login');
+//     } else {
+//       next();
+//     }
+//   }
+// });
 
 export default router
