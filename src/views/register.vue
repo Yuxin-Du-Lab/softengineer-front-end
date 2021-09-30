@@ -104,13 +104,19 @@ export default {
   methods: {
     async myRegister() {
         let vm = this;
+        if (vm.password != vm.passwordAgain) {
+          alert("两次密码输入不正确");
+          return
+        }
         let res = await register({
-          //username: "admin",
-          //password: "cede64ef2fe268fee04990066e875f74",
           username: vm.username,
           password: hex_md5(vm.password),
           nickname: vm.nickname,
         });
+        if (res.data.code == 0) {
+          alert("success");
+          this.$router.push({path: '/login'});
+        }
     }
   }
 }
