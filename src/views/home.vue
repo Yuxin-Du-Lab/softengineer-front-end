@@ -29,10 +29,13 @@
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols="1">
+            <v-btn x-large app collapse-on-scroll to="/test"> 测试 </v-btn>
+          </v-col>
+          <v-col cols="1">
             <v-btn x-large app collapse-on-scroll to="/login"> 登陆 </v-btn>
           </v-col>
           <v-col cols="1">
-            <v-btn x-large app collapse-on-scroll to="/test"> 测试 </v-btn>
+            <v-btn x-large app collapse-on-scroll @click="myLogout" to="/mainPage"> 注销 </v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -44,6 +47,8 @@
 </template>
 
 <script>
+import { logout } from "@/api/user.js";
+
 export default {
   name: "home",
 
@@ -56,6 +61,17 @@ export default {
       this.$router.push("/mainPage").catch((error) => {
         console.log('已在主页')
       });
+    },
+
+    async myLogout() {
+      const Token = this.$store.getters.getTokenStored;
+      if ( Token ) {
+        let res = await logout();
+        this.$store.commit('setTokenStored', '');
+        alert('注销成功！')
+      } else {
+        alert('您尚未登陆')
+      }
     },
   },
 };
