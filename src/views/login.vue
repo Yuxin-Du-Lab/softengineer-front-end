@@ -1,60 +1,155 @@
 <template>
-  <div>
-    <v-row md="10">
-      <v-col md="6" offset-md="2">
-        <v-card>
-          <v-card-title> 登陆 </v-card-title>
-          <v-card-subtitle>
-<!--            <v-row>-->
-<!--              <v-col md="3">-->
-<!--                <v-btn @click="myLogin"> 登陆测试 </v-btn>-->
-<!--              </v-col>-->
-<!--              <v-col md="3">-->
-<!--                <v-btn @click="myLogout"> 登出测试 </v-btn>-->
-<!--              </v-col>-->
-<!--            </v-row>-->
-            <div>
-              <v-text-field
-                  label="用户名"
-                  :rules="rules"
-                  hide-details="auto"
-              ></v-text-field>
-              <v-text-field label="密码"></v-text-field>
-              
-            </div>
-          </v-card-subtitle>
+  <div class="all">
+<!--    <i class="fab fa-accessible-icon"></i>-->
+    <v-row justify="center" align="center">
+      <v-col md = "6">
+        <v-card elevation="4" outlined shaped>
+          <p class="text-center font-italic" style="margin-top: 2rem; font-size:25px">
+            Electric
+          </p>
+
+          <v-form class="form">
+            <v-text-field class="input"
+                append-icon="mdi-account"
+                name="username"
+                v-model="username"
+                label="用户名"
+                hide-details="auto"
+            ></v-text-field>
+
+            <v-text-field
+                class="input"
+                :type="hidePassword ? 'password' : 'text'"
+                :append-icon="hidePassword ? 'mdi-eye-off' : 'mdi-eye'"
+                name="password"
+                v-model="password"
+                label="密码"
+                @keyup.enter="myLogin"
+                id="password"
+                hide-details="auto"
+                @click:append="hidePassword = !hidePassword"
+            ></v-text-field>
+          </v-form>
+
+
+          <v-row class="row_of_btn">
+            <v-card-actions>
+              <v-btn
+                  outlined
+                  rounded
+                  text
+                  color="green darken-2"
+                  @click="myLogin"
+              >
+                登录
+              </v-btn>
+            </v-card-actions>
+
+            <v-card-actions>
+              <v-btn
+                  outlined
+                  rounded
+                  text
+                  color="deep-purple lighten-2"
+                  @click="reserve"
+              >
+                忘记密码
+              </v-btn>
+            </v-card-actions>
+
+            <v-card-actions>
+              <v-btn
+                  outlined
+                  rounded
+                  text
+                  color="deep-purple lighten-2"
+                  @click="reserve"
+              >
+                注册
+              </v-btn>
+            </v-card-actions>
+          </v-row>
+
+
         </v-card>
       </v-col>
+
     </v-row>
+
   </div>
 </template>
 
 <script>
-import { login, logout } from "@/api/user.js";
+import { login } from "@/api/user.js";
+import {hex_md5} from '@/api/md5.js';
 
 export default {
   name: "login",
 
   data() {
-    return {};
+    return {
+      username: '',
+      password: '',
+      hidePassword: true,
+      error: false,
+    };
   },
 
   methods: {
     async myLogin() {
+      let vm = this;
       let res = await login({
-        username: "admin",
-        password: "cede64ef2fe268fee04990066e875f74",
+        //username: "admin",
+        //password: "cede64ef2fe268fee04990066e875f74",
+        username: vm.username,
+        password: hex_md5(vm.password),
       });
-      console.log(res);
-      this.$store.commit('setTokenStored', res.data.token);    
+      console.log(res)
+      if (res.data.token) {
+        this.$store.commit('setTokenStored', res.data.token);
+        this.$router.push({path: '/mainPage'})
+      } else {
+        alert(res.data.message)
+      }
     },
 
-    async myLogout() {
-      let res = await logout();
-      console.log(res);
-      this.$store.commit('setTokenStored', '');   
-      // console.log(this.$store.getters.getTokenStored)
+    async reserve() {
+      //TODO:实现修改密码和忘记密码
     },
   },
 };
 </script>
+
+<style scoped lang="css">
+
+.row_of_btn {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 1rem;
+  padding-left: 10rem;
+  padding-right: 10rem;
+}
+
+.all {
+  margin-top: 9rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.form {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+
+.input {
+  width: 30rem;
+  height: 5rem;
+
+}
+
+</style>
