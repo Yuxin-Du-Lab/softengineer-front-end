@@ -4,6 +4,7 @@ import App from '@/App.vue'
 import login from '@/views/login.vue'
 import test from '@/views/test.vue';
 import mainPage from '@/views/mainPage.vue';
+import register from "../views/register";
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,11 @@ const routes = [
         path: 'mainPage',
         name: 'mainPage',
         component: mainPage
+      },
+      {
+        path: 'register',
+        name: 'register',
+        component: register
       }
     ]
   },
