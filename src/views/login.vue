@@ -63,7 +63,7 @@
                   rounded
                   text
                   color="deep-purple lighten-2"
-                  @click="reserve"
+                  to="/register"
               >
                 注册
               </v-btn>

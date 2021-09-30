@@ -2,9 +2,18 @@ import { request } from "../units/api"
 
 const api_urls = {
     user_list: '/user/userlist',
+    user_register: '/user/register',
     get_user_info: '/user/whoami',
     user_login: '/auth/login',
     user_logout: '/auth/logout',
+}
+
+export async function register(body) {
+    return await request({
+        url: api_urls.user_register,
+        body: body,
+        method: 'post',
+    })
 }
 
 export async function login(body) {
