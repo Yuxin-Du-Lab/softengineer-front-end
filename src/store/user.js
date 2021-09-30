@@ -1,17 +1,41 @@
 const user = {
     state: {
-        //属性
-        TokenStored: ''
+        token: sessionStorage.getItem('token'),
+        userInfo: {
+            username: sessionStorage.getItem('username'),
+            nickname: sessionStorage.getItem('nickname'),
+            id: sessionStorage.getItem('id'),
+        },
     },
     mutations: {
-        //set方法
-        setTokenStored(state, TokenValue) {
-            console.log('$store run setTokenStored: TokenValue:' + TokenValue)
-            state.TokenStored = TokenValue
-        }
+        setUser (state, info) {
+            state.userInfo = info
+            sessionStorage.setItem('username', info.username)
+            sessionStorage.setItem('id', info.id)
+            sessionStorage.setItem('nickname', info.nickname)
+        },
+        setToken (state, tokenIn) {
+            state.token = tokenIn
+            sessionStorage.setItem('token', tokenIn)
+        },
+        logout (state) {
+            state.token = ''
+            state.userInfo = {
+                username: '',
+                nickname: '',
+                id: null,
+            }
+            sessionStorage.removeItem('token')
+            sessionStorage.removeItem('username')
+            sessionStorage.removeItem('nickname')
+            sessionStorage.removeItem('id')
+        },
     },
     getters: {
-        getTokenStored: state => state.TokenStored
+        TokenStored: state => state.token,
+        Name: state => state.userInfo.name,
+        NickName: state => state.userInfo.nickname,
+        Id: state => state.userInfo.id,
     },
 }
 

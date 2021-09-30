@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { login } from "@/api/user.js";
+import { login, getUserInfo } from "@/api/user.js";
 import {hex_md5} from '@/api/md5.js';
 
 export default {
@@ -99,14 +99,15 @@ export default {
     async myLogin() {
       let vm = this;
       let res = await login({
-        //username: "admin",
-        //password: "cede64ef2fe268fee04990066e875f74",
         username: vm.username,
         password: hex_md5(vm.password),
       });
-      console.log(res)
+      // console.log(res)
       if (res.data.token) {
-        this.$store.commit('setTokenStored', res.data.token);
+        this.$store.commit('setToken', res.data.token)
+        let user = await getUserInfo()
+        // console.log(user)
+        this.$store.commit('setUser', user.data)
         this.$router.push({path: '/mainPage'})
       } else {
         alert(res.data.message)
@@ -149,7 +150,6 @@ export default {
 .input {
   width: 30rem;
   height: 5rem;
-
 }
 
 </style>
