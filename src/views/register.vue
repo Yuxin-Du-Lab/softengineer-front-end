@@ -73,44 +73,39 @@
             </v-col>
           </v-row>
 
-          <v-row justify="center">
-            <v-col offset="3" class="font-weight-thin">
-              出生日期
-            </v-col>
-          </v-row>
 
           <v-row align="center" justify="center">
-            <v-col
-                class="d-flex"
-                md="2"
-            >
-              <v-select
-                  :items="yearitems"
-                  dense
-                  label="年"
-              ></v-select>
-            </v-col>
-
-            <v-col
-                class="d-flex"
-                md="2"
-            >
-              <v-select
-                  :items="monthitems"
-                  dense
-                  label="月"
-              ></v-select>
-            </v-col>
-
-            <v-col
-                class="d-flex"
-                md="2"
-            >
-              <v-select
-                  :items="dayitems"
-                  dense
-                  label="日"
-              ></v-select>
+            <v-col md="6">
+              <template>
+                <div>
+                  <v-menu
+                      ref="menu"
+                      v-model="menu"
+                      :close-on-content-click="false"
+                      transition="scale-transition"
+                      offset-y
+                      min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                          v-model="date"
+                          label="Birthday date"
+                          prepend-icon="mdi-calendar"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                        v-model="date"
+                        :active-picker.sync="activePicker"
+                        :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
+                        min="1950-01-01"
+                        @change="save"
+                    ></v-date-picker>
+                  </v-menu>
+                </div>
+              </template>
             </v-col>
           </v-row>
 
@@ -159,96 +154,9 @@ export default {
         compare: value => value == this.password || '两次输入密码不一样',
       },
       checkbox: false,
-      yearitems: [
-        '1980',
-        '1981',
-        '1982',
-        '1983',
-        '1984',
-        '1985',
-        '1986',
-        '1987',
-        '1988',
-        '1989',
-        '1990',
-        '1991',
-        '1992',
-        '1993',
-        '1994',
-        '1995',
-        '1996',
-        '1997',
-        '1998',
-        '1999',
-        '2000',
-        '2001',
-        '2002',
-        '2003',
-        '2004',
-        '2005',
-        '2006',
-        '2007',
-        '2008',
-        '2009',
-        '2010',
-        '2011',
-        '2012',
-        '2013',
-        '2014',
-        '2015',
-        '2016',
-        '2017',
-        '2018',
-        '2019',
-        '2020',
-      ],
-      monthitems: [
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '10',
-        '11',
-        '12',
-      ],
-      dayitems: [
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '10',
-        '11',
-        '12',
-        '13',
-        '14',
-        '15',
-        '16',
-        '17',
-        '18',
-        '19',
-        '20',
-        '21',
-        '22',
-        '23',
-        '24',
-        '25',
-        '26',
-        '27',
-        '28',
-        '29',
-        '30',
-        '31',
-      ],
+      activePicker: null,
+      date: null,
+      menu: false,
       dialog: false,
       hidePasswordAgain: true,
       hidePassword: true,
@@ -260,7 +168,17 @@ export default {
     };
   },
 
+  watch: {
+    menu (val) {
+      val && setTimeout(() => (this.activePicker = 'YEAR'))
+    },
+  },
+
   methods: {
+    save (date) {
+      this.$refs.menu.save(date)
+    },
+    
     async myRegister() {
         let vm = this;
         if (!vm.checkbox) {
