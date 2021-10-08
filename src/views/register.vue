@@ -42,6 +42,16 @@
 
           <v-row align="center" justify="center">
             <v-col md="6">
+              <v-text-field name="phone"
+                            v-model="phone"
+                            label="电话号码"
+                            :rules="[rules.required]"
+                            hide-details="auto"></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row align="center" justify="center">
+            <v-col md="6">
               <v-text-field name="password"
                             v-model="password"
                             label="密码"
@@ -165,6 +175,7 @@ export default {
       userEmail: '',
       password: '',
       passwordAgain: '',
+      phone: '',
     };
   },
 
@@ -178,7 +189,7 @@ export default {
     save (date) {
       this.$refs.menu.save(date)
     },
-    
+
     async myRegister() {
         let vm = this;
         if (!vm.checkbox) {
@@ -193,6 +204,9 @@ export default {
           username: vm.username,
           password: hex_md5(vm.password),
           nickname: vm.nickname,
+          email: vm.userEmail,
+          phone: vm.phone,
+          birthday: vm.date,
         });
         if (res.data.code == 0) {
           alert("success");
