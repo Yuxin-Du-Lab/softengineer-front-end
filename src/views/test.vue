@@ -1,62 +1,86 @@
 <template>
-  <v-row>
-    <v-col>
-      <v-card>
-        <v-card-title> 测试1</v-card-title>
-        <v-card-subtitle>
-          <v-btn @click="myGetUserList"> 获取所有用户信息</v-btn>
-        </v-card-subtitle>
-        <v-card-subtitle>
-          <v-list>
-            <v-list-item v-for="item in user_list" :key="item.id">
-              <v-list-item-content>
-                ID: {{ item.id }}<br/>
-                NAME: {{ item.username }}<br/>
-                NICKNAME: {{ item.nickname }}
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-card-subtitle>
-      </v-card>
-    </v-col>
-    <v-col>
-      <v-card>
-        <v-card-title> 测试2</v-card-title>
-        <v-card-subtitle>
-          <v-btn @click="myGetUser"> 获取当前用户信息</v-btn>
-        </v-card-subtitle>
-        <v-card-title>当前用户</v-card-title>
-        <v-card-subtitle>
-          ID: {{ visitingUserInfo.id }}<br/>
-          NAME: {{ visitingUserInfo.username }}<br/>
-          NICKNAME: {{ visitingUserInfo.nickname }}
-        </v-card-subtitle>
-      </v-card>
-    </v-col>
-    <v-col>
-      <v-card>
-        <v-card-title> 测试3 md5</v-card-title>
-        <v-card-subtitle>
-          <v-text-field
-              label="明文"
-              hide-details="auto"
-              v-model="originCode"
-          ></v-text-field>
-          <br>
-          <v-btn @click="getPassword"> submit </v-btn>
-        </v-card-subtitle>
-        <v-card-title> 密文 </v-card-title>
-        <v-card-subtitle>
-          {{password}}
-        </v-card-subtitle>
-      </v-card>
-    </v-col>
-  </v-row>
+  <div>
+    <v-row>
+      <v-col>
+        <v-card>
+          <v-card-title> 测试1</v-card-title>
+          <v-card-subtitle>
+            <v-btn @click="myGetUserList"> 获取所有用户信息</v-btn>
+          </v-card-subtitle>
+          <v-card-subtitle>
+            <v-list>
+              <v-list-item v-for="item in user_list" :key="item.id">
+                <v-list-item-content>
+                  ID: {{ item.id }}<br/>
+                  NAME: {{ item.username }}<br/>
+                  NICKNAME: {{ item.nickname }}
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-card-subtitle>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-card>
+          <v-card-title> 测试2</v-card-title>
+          <v-card-subtitle>
+            <v-btn @click="myGetUser"> 获取当前用户信息</v-btn>
+          </v-card-subtitle>
+          <v-card-title>当前用户</v-card-title>
+          <v-card-subtitle>
+            ID: {{ visitingUserInfo.id }}<br/>
+            NAME: {{ visitingUserInfo.username }}<br/>
+            NICKNAME: {{ visitingUserInfo.nickname }}
+          </v-card-subtitle>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-card>
+          <v-card-title> 测试3 md5</v-card-title>
+          <v-card-subtitle>
+            <v-text-field
+                label="明文"
+                hide-details="auto"
+                v-model="originCode"
+            ></v-text-field>
+            <br>
+            <v-btn @click="getPassword"> submit </v-btn>
+          </v-card-subtitle>
+          <v-card-title> 密文 </v-card-title>
+          <v-card-subtitle>
+            {{password}}
+          </v-card-subtitle>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-card>
+          <v-card-title> 测试4</v-card-title>
+          <v-card-subtitle>
+            <v-btn @click="myGetImg"> 获取图片</v-btn>
+          </v-card-subtitle>
+          <v-card-subtitle>
+            <v-text-field
+                label="image name"
+                hide-details="auto"
+                v-model="imageName"
+            ></v-text-field>
+            <v-card-subtitle>
+              <v-img :src="pic"></v-img>
+            </v-card-subtitle>
+          </v-card-subtitle>
+        </v-card>
+      </v-col>
+    </v-row>
+  </div>
+
 </template>
 
 <script>
 import {getUserList, getUserInfo} from "@/api/user.js";
-import {hex_md5} from '@/api/md5.js'
+import {hex_md5} from "@/api/md5.js"
+import {get_file_img} from "@/api/file.js"
 
 export default {
   name: "test",
@@ -64,9 +88,11 @@ export default {
   data() {
     return {
       user_list: {},
-      visitingUserInfo: "",
+      visitingUserInfo: '',
       originCode: null,
       password: null,
+      imageName: 'end.png',
+      pic: null,
     };
   },
 
@@ -94,6 +120,16 @@ export default {
       this.password = hex_md5(originString)
       console.log(this.password)
     },
+
+    async myGetImg() {
+      if (this.imageName) {
+        this.pic = await get_file_img({
+          imageName: this.imageName,
+        })
+      } else {
+        alert('error')
+      }
+    }
   },
 };
 </script>
