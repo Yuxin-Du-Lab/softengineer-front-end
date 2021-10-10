@@ -20,6 +20,7 @@ export async function request(options) {
             method: options.method,
             params: options.params,
             data: options.body,
+            responseType: options.responseType,
             headers: {
                 Token: Token
             },
@@ -73,4 +74,3 @@ function handleException(response) {
 Vue.config.errorHandler = errorHandler
 Vue.prototype.$throw = (error) => errorHandler(error, this)
 
-  
