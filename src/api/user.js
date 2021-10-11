@@ -17,6 +17,7 @@ export async function register(body) {
 }
 
 export async function login(body) {
+    console.log(body)
     return await request({
         url: api_urls.user_login,
         body: body,

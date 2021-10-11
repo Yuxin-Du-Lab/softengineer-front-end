@@ -13,7 +13,7 @@ export async function get_file_img(params) {
     let res  = await request({
         url: api_urls.file_get + String(params.imageName),
         params: {},
-        methond: 'get',
+        method: 'get',
         responseType: "blob",
     })
     return window.URL.createObjectURL(res.data)

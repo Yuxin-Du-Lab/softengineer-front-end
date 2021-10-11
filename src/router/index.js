@@ -5,44 +5,49 @@ import login from '@/views/login.vue'
 import test from '@/views/test.vue';
 import mainPage from '@/views/mainPage.vue';
 import register from "../views/register";
+import game from "@/views/game.vue";
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'App',
-    component: App,
-    redirect:'/mainPage',
-    children: [
-      {
-        path: 'login',
-        name: 'login',
-        component: login
-      },
-      {
-        path: 'test',
-        name: 'test',
-        component: test
-      },
-      {
-        path: 'mainPage',
-        name: 'mainPage',
-        component: mainPage
-      },
-      {
-        path: 'register',
-        name: 'register',
-        component: register
-      }
-    ]
-  },
+    {
+        path: '/',
+        name: 'App',
+        component: App,
+        redirect: '/mainPage',
+        children: [
+            {
+                path: 'login',
+                name: 'login',
+                component: login
+            },
+            {
+                path: 'test',
+                name: 'test',
+                component: test
+            },
+            {
+                path: 'mainPage',
+                name: 'mainPage',
+                component: mainPage
+            },
+            {
+                path: 'register',
+                name: 'register',
+                component: register
+            }, {
+                path: 'game',
+                name: 'game',
+                component: game
+            }
+        ]
+    },
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
 })
 
 // б╥сийьню
