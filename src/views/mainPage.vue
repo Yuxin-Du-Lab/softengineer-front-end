@@ -4,8 +4,8 @@
       <v-col cols="8">
         <v-row v-for="item in gameList">
           <v-col cols="12">
-            <router-link :to="{path:'game', query:{game_id: item.id}}" class="text-h6 black--text">
-              <v-card style="cursor:pointer">
+            <router-link :to="{path:'game', query:{game_id: item.id}}" class="text-h6 transparent--text">
+              <v-card style="cursor:pointer" color="grey darken-4">
                 <v-card-title>
                   {{ item.name }}
                 </v-card-title>
