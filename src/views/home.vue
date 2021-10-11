@@ -12,6 +12,7 @@
               transition="scale-transition"
               min-width="70"
               width="70"
+              style="cursor:pointer"
               @click="toHome"
             >
             </v-img>
@@ -24,6 +25,7 @@
               min-width="100"
               src="@/assets/name.png"
               width="200"
+              style="cursor:pointer"
               @click="toHome"
             />
           </v-col>
@@ -38,7 +40,7 @@
             <v-btn x-large app collapse-on-scroll @click="myLogout" to="/mainPage"> 注销 </v-btn>
           </v-col>
           <v-col cols="2">
-            <v-card color="#385F73">
+            <v-card color="#385F73" style="cursor:pointer">
               <v-card-subtitle>
                 {{ $store.getters.NickName ? $store.getters.NickName : '您尚未登陆' }}
               </v-card-subtitle>
