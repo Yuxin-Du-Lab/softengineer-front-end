@@ -42,6 +42,7 @@
           <v-col cols="2">
             <v-card color="#385F73" style="cursor:pointer">
               <v-card-subtitle>
+                <v-icon>mdi-account</v-icon>
                 {{ $store.getters.NickName ? $store.getters.NickName : '您尚未登陆' }}
               </v-card-subtitle>
             </v-card>
