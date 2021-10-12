@@ -6,6 +6,7 @@ const user = {
             nickname: sessionStorage.getItem('nickname'),
             id: sessionStorage.getItem('id'),
         },
+        img_url: sessionStorage.getItem('img_url'),
     },
     mutations: {
         setUser (state, info) {
@@ -17,6 +18,10 @@ const user = {
         setToken (state, tokenIn) {
             state.token = tokenIn
             sessionStorage.setItem('token', tokenIn)
+        },
+        setImgUrl(state, img_url) {
+            state.img_url = img_url
+            sessionStorage.setItem('img_url', img_url)
         },
         logout (state) {
             state.token = ''
@@ -36,6 +41,7 @@ const user = {
         Name: state => state.userInfo.name,
         NickName: state => state.userInfo.nickname,
         Id: state => state.userInfo.id,
+        Img_url: state => state.img_url,
     },
 }
 

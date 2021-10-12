@@ -5,52 +5,66 @@ import login from '@/views/login.vue'
 import test from '@/views/test.vue';
 import mainPage from '@/views/mainPage.vue';
 import register from "../views/register";
-import game from "@/views/game.vue";
+import userData from "../views/userData";
+import wareHouse from "../views/wareHouse";
+import userServe from "../views/userServe";
 
 Vue.use(VueRouter)
 
 const routes = [
-    {
-        path: '/',
-        name: 'App',
-        component: App,
-        redirect: '/mainPage',
-        children: [
-            {
-                path: 'login',
-                name: 'login',
-                component: login
-            },
-            {
-                path: 'test',
-                name: 'test',
-                component: test
-            },
-            {
-                path: 'mainPage',
-                name: 'mainPage',
-                component: mainPage
-            },
-            {
-                path: 'register',
-                name: 'register',
-                component: register
-            }, {
-                path: 'game',
-                name: 'game',
-                component: game
-            }
-        ]
-    },
+  {
+    path: '/',
+    name: 'App',
+    component: App,
+    redirect:'/mainPage',
+    children: [
+      {
+        path: 'login',
+        name: 'login',
+        component: login
+      },
+      {
+        path: 'test',
+        name: 'test',
+        component: test
+      },
+      {
+        path: 'mainPage',
+        name: 'mainPage',
+        component: mainPage
+      },
+      {
+        path: 'register',
+        name: 'register',
+        component: register
+      },
+      {
+        path: 'userData',
+        name: 'userData',
+        component: userData
+      },
+      {
+        path: 'wareHouse',
+        name: 'wareHouse',
+        component: wareHouse
+      },
+      {
+        path: 'userServe',
+        name: 'userServe',
+        component: userServe
+      },
+
+    ]
+  },
 ]
 
 const router = new VueRouter({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
 })
 
-// Â·ÓÉÊØÎÀ
+// Â·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 // router.beforeEach((to, from, next) => {
 //
 //   if (to.path === '/login') {

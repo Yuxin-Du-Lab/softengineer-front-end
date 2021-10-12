@@ -82,6 +82,8 @@
 <script>
 import { login, getUserInfo } from "@/api/user.js";
 import {hex_md5} from '@/api/md5.js';
+import {get_file_img} from "../api/file";
+import {getImgUrl} from "../api/user";
 
 export default {
   name: "login",
@@ -92,6 +94,10 @@ export default {
       password: '',
       hidePassword: true,
       error: false,
+      img_url: '',
+      imageName: 'end.png',
+      path: '',
+      str: '',
     };
   },
 
@@ -108,6 +114,10 @@ export default {
         let user = await getUserInfo()
         // console.log(user)
         this.$store.commit('setUser', user.data)
+
+        await this.getUrl()
+        await this.myGetImg()
+        this.$store.commit('setImgUrl', this.img_url)
         this.$router.push({path: '/mainPage'})
       } else {
         alert(res.data.message)
@@ -117,6 +127,27 @@ export default {
     async reserve() {
       //TODO:实现修改密码和忘记密码
     },
+
+    async myGetImg() {
+      if (this.imageName) {
+        this.img_url = await get_file_img({
+          imageName: this.imageName,
+        })
+      } else {
+        this.imageName = 'end.png'
+      }
+    },
+
+    async getUrl() {
+      const id = this.$store.getters.Id;
+      this.path = /(?<=http:\/\/49.235.193.150:8112\/file\/image\/).+$/
+
+      let res = await getImgUrl({
+        user: id
+      })
+      this.str = res.data
+      this.imageName = this.path.exec(this.str)
+    }
   },
 };
 </script>

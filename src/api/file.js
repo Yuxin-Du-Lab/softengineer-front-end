@@ -9,12 +9,14 @@ const api_urls = {
 * return: URL. u can use it in <img> src
 * */
 export async function get_file_img(params) {
-    // console.log('file.js run get_file_img')
+    console.log('file.js run get_file_img')
     let res  = await request({
         url: api_urls.file_get + String(params.imageName),
         params: {},
-        method: 'get',
+        methond: 'get',
         responseType: "blob",
     })
     return window.URL.createObjectURL(res.data)
 }
+
+
