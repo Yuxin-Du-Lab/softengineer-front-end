@@ -8,6 +8,7 @@ import register from "../views/register";
 import userData from "../views/userData";
 import wareHouse from "../views/wareHouse";
 import userServe from "../views/userServe";
+import game from "@/views/game.vue";
 
 Vue.use(VueRouter)
 
@@ -53,7 +54,11 @@ const routes = [
         name: 'userServe',
         component: userServe
       },
-
+      {
+        path: 'game',
+        name: 'game',
+        component: game
+      }
     ]
   },
 ]

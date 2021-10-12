@@ -23,6 +23,10 @@ const user = {
             state.img_url = img_url
             sessionStorage.setItem('img_url', img_url)
         },
+        setNickName(state, nickname) {
+            state.userInfo.nickname = nickname
+            sessionStorage.setItem('nickname', nickname)
+        },
         logout (state) {
             state.token = ''
             state.userInfo = {
