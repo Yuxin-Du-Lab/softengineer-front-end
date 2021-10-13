@@ -34,7 +34,7 @@
             <v-btn x-large app collapse-on-scroll to="/test"> 测试</v-btn>
           </v-col>
           <v-col cols="1">
-            <v-btn x-large app collapse-on-scroll @click="myUserData"> 登陆</v-btn>
+            <v-btn x-large app collapse-on-scroll @click="myUserData"> 登录</v-btn>
           </v-col>
           <v-col cols="1">
             <v-btn x-large app collapse-on-scroll @click="myLogout" to="/mainPage"> 注销</v-btn>
@@ -43,7 +43,7 @@
             <v-card color="#385F73" style="cursor:pointer" @click="myUserData">
               <v-card-subtitle>
                 <v-icon>mdi-account</v-icon>
-                {{ $store.getters.NickName ? $store.getters.NickName : '您尚未登陆' }}
+                {{ $store.getters.NickName ? $store.getters.NickName : '您尚未登录' }}
               </v-card-subtitle>
             </v-card>
           </v-col>
@@ -80,7 +80,7 @@ export default {
         this.$store.commit('logout')
         alert('注销成功！')
       } else {
-        alert('您尚未登陆')
+        alert('您尚未登录')
       }
     },
 
