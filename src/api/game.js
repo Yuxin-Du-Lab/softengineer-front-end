@@ -3,6 +3,24 @@ import { request } from "../units/api"
 const api_urls = {
     game_list_get: '/game/list/',
     game_info_get: '/game/info',
+    game_purchase: '/game/purchaseGame',
+    pay_order: '/game/payOrder',
+}
+
+export async function pay_order(body) {
+    return await request({
+        url: api_urls.pay_order,
+        method: 'post',
+        body: body
+    })
+}
+
+export async function purchase_game(body) {
+    return await request({
+        url: api_urls.game_purchase,
+        method: 'post',
+        body: body
+    })
 }
 
 export async function get_game_list(params) {

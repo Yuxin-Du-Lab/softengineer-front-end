@@ -44,7 +44,6 @@ export default {
   methods: {
     async myGetGame() {
       let res = await get_game_list()
-      console.log(res)
       this.gameList = res.data
     }
   }

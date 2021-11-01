@@ -95,7 +95,7 @@ export default {
       hidePassword: true,
       error: false,
       img_url: '',
-      imageName: 'end.png',
+      // imageName: 'end.png',
       path: '',
       str: '',
     };
@@ -116,7 +116,7 @@ export default {
         this.$store.commit('setUser', user.data)
 
         await this.getUrl()
-        await this.myGetImg()
+        // await this.myGetImg()
         this.$store.commit('setImgUrl', this.img_url)
         this.$router.push({path: '/mainPage'})
       } else {
@@ -128,25 +128,27 @@ export default {
       //TODO:实现修改密码和忘记密码
     },
 
-    async myGetImg() {
-      if (this.imageName) {
-        this.img_url = await get_file_img({
-          imageName: this.imageName,
-        })
-      } else {
-        this.imageName = 'end.png'
-      }
-    },
+    // async myGetImg() {
+    //   if (this.imageName) {
+    //     this.img_url = await get_file_img({
+    //       imageName: this.imageName,
+    //     })
+    //   } else {
+    //     this.imageName = 'end.png'
+    //   }
+    // },
 
     async getUrl() {
       const id = this.$store.getters.Id;
-      this.path = /(?<=http:\/\/49.235.193.150:8112\/file\/image\/).+$/
+      // this.path = /(?<=http:\/\/49.235.193.150:8112\/file\/image\/).+$/
 
       let res = await getImgUrl({
         user: id
       })
-      this.str = res.data
-      this.imageName = this.path.exec(this.str)
+      // console.log(res)
+      // this.str = res.data
+      // this.imageName = this.path.exec(this.str)
+      this.img_url = res.data
     }
   },
 };

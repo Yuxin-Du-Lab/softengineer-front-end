@@ -73,12 +73,37 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col cols="4">
+        <v-card>
+          <v-card-title>
+            用户充值
+          </v-card-title>
+          <v-row>
+            <v-col cols="12">
+              <v-card-subtitle>
+                <v-input>
+                  <v-text-field label="金额" v-model="rechargeAmount"></v-text-field>
+                  <div>￥</div>
+                  <v-btn @click="myRecharge">recharge</v-btn>
+                </v-input>
+              </v-card-subtitle>
+            </v-col>
+            <v-col cols="12">
+              <v-card-text>
+                <v-chip>余额 {{balance}} ￥</v-chip>
+              </v-card-text>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 
 </template>
 
 <script>
-import {getUserList, getUserInfo} from "@/api/user.js";
+import {getUserList, getUserInfo, recharge, get_user_balance} from "@/api/user.js";
 import {hex_md5} from "@/api/md5.js"
 import {get_file_img} from "@/api/file.js"
 
@@ -93,7 +118,13 @@ export default {
       password: null,
       imageName: 'end.png',
       pic: null,
+      rechargeAmount: 0,
+      balance: 0,
     };
+  },
+
+  mounted() {
+    this.myGetBalance()
   },
 
   methods: {
@@ -129,6 +160,22 @@ export default {
       } else {
         alert('error')
       }
+    },
+
+    async myRecharge() {
+      if (this.rechargeAmount > 0 && !isNaN(this.rechargeAmount)) {
+        let res = await recharge({
+          amount: this.rechargeAmount
+        })
+        this.myGetBalance()
+      } else {
+        alert('请输入正确的金额')
+      }
+    },
+
+    async myGetBalance() {
+      let res = await get_user_balance();
+      this.balance = res.data
     }
   },
 };

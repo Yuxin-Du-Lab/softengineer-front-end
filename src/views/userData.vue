@@ -88,6 +88,92 @@
                 </v-btn>
               </v-card-actions>
 
+              <v-card-actions>
+                <v-dialog
+                    v-model="showOrderList"
+                    fullscreen
+                    hide-overlay
+                    transition="dialog-bottom-transition"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                        color="deep-purple lighten-2"
+                        outlined
+                        rounded
+                        text
+                        v-bind="attrs"
+                        v-on="on"
+                        @click="myGetOrderList"
+                    >
+                      订单列表
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-toolbar>
+                      <h2>订单列表</h2>
+                      <v-spacer></v-spacer>
+                      <v-toolbar-items>
+                        <v-btn
+                            dark
+                            icon
+                            @click="showOrderList = false"
+                        >
+                          <v-icon>mdi-close</v-icon>
+                        </v-btn>
+                      </v-toolbar-items>
+                    </v-toolbar>
+                    <v-row v-for="item in orderList">
+                      <v-col cols="6" offset="3">
+                        <br />
+                        <v-card :color="item.paid ? 'teal darken-3' : 'indigo darken-3'">
+                          <v-card-title>
+                            <h3>{{item.gameInfo.name}}</h3>
+                          </v-card-title>
+                          <v-card-subtitle>
+                            <br />
+                            <h4>产品价格为 {{item.gameInfo.price}} ￥</h4>
+                            <h5>
+                              <v-icon>
+                                mdi-account-heart-outline
+                              </v-icon>
+                              {{item.receiverInfo.id ==$store.getters.Id ? '为自己购买' : '收货人: ' + item.receiverInfo.nickname}}
+                            </h5>
+                          </v-card-subtitle>
+                          <v-card-subtitle>
+                            <v-row>
+                              <v-col cols="3">
+                                创建日期: {{item.createDate}}
+                                <br />
+                                {{item.paid ? '支付日期: ' + item.payDate : ''}}</v-col>
+                              <v-spacer></v-spacer>
+                              <v-col cols="3">
+                                <v-chip v-if="item.paid" color="green">
+                                  <v-icon>mdi-checkbox-marked-circle-outline</v-icon>
+                                  订单已完成
+                                </v-chip>
+                                <v-btn v-else color="teal darken-3" style="cursor: pointer" @click="myPayOrder(item.id)">
+                                  <v-icon>mdi-currency-usd</v-icon>
+                                  现在支付
+                                </v-btn>
+                              </v-col>
+                            </v-row>
+                          </v-card-subtitle>
+                        </v-card>
+                      </v-col>
+                    </v-row>
+                  </v-card>
+                </v-dialog>
+                <v-snackbar
+                    v-model="orderPayResult"
+                    :timeout="3000"
+                    :color="orderPaySuccess ? 'teal darken-3' : 'pink darken-4'"
+                    top
+                >
+                  <h3>
+                    {{orderPaySuccess ? '订单已完成,游戏已为您添加到库' : '余额不足，支付失败'}}
+                  </h3>
+                </v-snackbar>
+              </v-card-actions>
             </v-row>
           </v-card>
         </v-col>
@@ -365,7 +451,8 @@
 <script>
 
 import {get_file_img} from "../api/file";
-import {editUserImage, getAllUserData, getImgUrl, getUserInfo, updateUserData} from "../api/user";
+import {editUserImage, getAllUserData, getImgUrl, getUserList, updateUserData, get_order_list} from "../api/user";
+import {get_game_info, pay_order} from '../api/game.js'
 
 export default {
   name: "userData",
@@ -410,6 +497,10 @@ export default {
       newPhone: '',
       newSignature: '',
 
+      showOrderList: false,
+      orderList: [],
+      orderPayResult: false,
+      orderPaySuccess: false,
     };
   },
 
@@ -420,6 +511,44 @@ export default {
   },
 
   methods: {
+    async myPayOrder(orderId) {
+      let res = await pay_order({
+        orderId: orderId
+      })
+      this.orderPaySuccess = res.data.code === 0
+      this.orderPayResult = true
+      this.showOrderList = !this.orderPaySuccess
+    },
+
+    async getTargetUser() {
+      let vm = this
+      let user_res = await getUserList()
+      for (let index=0; index<this.orderList.length; index++) {
+        let receiver = user_res.data.filter(function (item) {
+            return item.id === vm.orderList[index].receiverId
+        })
+        if (receiver.length > 0) {
+          this.orderList[index].receiverInfo = receiver[0]
+        }
+      }
+    },
+
+    async getGameInfo() {
+      for (let index=0; index<this.orderList.length; index++) {
+        let res = await get_game_info({
+          game: this.orderList[index].gameId
+        })
+        this.orderList[index].gameInfo = res.data
+      }
+    },
+
+    async myGetOrderList() {
+      let res = await get_order_list()
+      this.orderList = res.data
+      await this.getGameInfo()
+      await this.getTargetUser()
+      this.$forceUpdate()
+    },
 
     save (date) {
       this.$refs.menu.save(date)
@@ -447,8 +576,6 @@ export default {
     },
 
     async doEditImage() {
-      //console.log("doEditImage")
-      //console.log(this.newImage)
       const formData = new FormData();
       formData.append("file", this.newImage)
       await editUserImage(formData)

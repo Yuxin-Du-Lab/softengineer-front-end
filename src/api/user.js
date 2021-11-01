@@ -9,7 +9,43 @@ const api_urls = {
     img_url: 'user/avatar',
     edit_user_image: 'user/setAvatar',
     update_user_data: 'user/updateInfo',
-    get_user_all_data: 'user/userinfo'
+    get_user_all_data: 'user/userinfo',
+    user_recharge: '/user/recharge',
+    get_user_balance: '/user/balance',
+    get_owned_game: '/user/ownedGames',
+    get_order_list: '/user/listOrders',
+}
+
+export async function get_order_list() {
+    return await request({
+        url: api_urls.get_order_list,
+        method: 'get',
+        params: {}
+    })
+}
+
+export async function get_owned_games(params) {
+    return await request({
+        url: api_urls.get_owned_game,
+        method: 'get',
+        params: params
+    })
+}
+
+export async function get_user_balance() {
+    return await request({
+        url: api_urls.get_user_balance,
+        method: 'get',
+        params: {}
+    })
+}
+
+export async function recharge(body) {
+    return await request({
+        url: api_urls.user_recharge,
+        method: 'post',
+        body: body
+    })
 }
 
 export async function register(body) {
