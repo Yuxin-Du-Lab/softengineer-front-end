@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:lts-alpine as build
 
 RUN npm config set registry https://registry.npm.taobao.org
 
@@ -17,8 +17,18 @@ COPY . .
 # Build Project
 RUN npm run build
 
+# Serve with nginx
+FROM nginx:alpine as deploy
+
+# Copy nginx configuration
+COPY ./nginx.conf /etc/nginx/
+
+# Copy project artifacts
+RUN rm -rf /usr/share/nginx/html/*
+COPY --from=build /app/dist /usr/share/nginx/html
+
 # Set up port
-EXPOSE 8080
+EXPOSE 8000
 
 # Entry command
-ENTRYPOINT [ "npm", "run", "serve-dev" ]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
