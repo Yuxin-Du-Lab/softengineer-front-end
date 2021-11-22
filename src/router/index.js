@@ -9,6 +9,7 @@ import userData from "../views/userData";
 import wareHouse from "../views/wareHouse";
 import userServe from "../views/userServe";
 import game from "@/views/game.vue";
+import friends from "../views/friends";
 
 Vue.use(VueRouter)
 
@@ -58,6 +59,11 @@ const routes = [
         path: 'game',
         name: 'game',
         component: game
+      },
+      {
+        path: 'friends',
+        name: 'friends',
+        component: friends
       }
     ]
   },

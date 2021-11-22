@@ -89,6 +89,18 @@
               </v-card-actions>
 
               <v-card-actions>
+                <v-btn
+                    outlined
+                    rounded
+                    text
+                    color="deep-purple lighten-2"
+                    to="/friends"
+                >
+                  好友
+                </v-btn>
+              </v-card-actions>
+
+              <v-card-actions>
                 <v-dialog
                     v-model="showOrderList"
                     fullscreen
