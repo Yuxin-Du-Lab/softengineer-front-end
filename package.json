@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "env VUE_APP_API_URL=http://49.235.193.150:8112 VERSION=Dev vue-cli-service build",
     "serve-dev": "env VUE_APP_API_URL=http://49.235.193.150:8112 VERSION=DevServe vue-cli-service serve"
   },
   "dependencies": {

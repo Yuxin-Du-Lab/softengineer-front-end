@@ -92,7 +92,7 @@
                 @click="myGetBalance"
             >BUY IT</v-btn>
             <v-chip v-if="!$store.getters.Id" color="success">
-              登陆后购买
+              登录后购买
             </v-chip>
           </template>
           <v-card>
