@@ -21,7 +21,7 @@
                 <v-col cols="10" v-for="achieve in item.achievements" :style="{'color': color_list[
                   Math.floor(Math.random() * color_list.length)
               ]}" @click="get_details" style="cursor:pointer">
-                  {{achieve.name}}
+                  {{achieve.achievementName}}
                 </v-col>
               </v-row>
 
