@@ -90,7 +90,8 @@
                 v-on="on"
                 v-if="!isUserOwned && $store.getters.Id"
                 @click="myGetBalance"
-            >BUY IT</v-btn>
+            >BUY IT
+            </v-btn>
             <v-chip v-if="!$store.getters.Id" color="success">
               登录后购买
             </v-chip>
@@ -103,28 +104,28 @@
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </v-toolbar>
-            <br /><br />
+            <br/><br/>
             <v-row>
               <v-col cols="6" offset="3">
                 <v-card>
                   <v-card-title>
-                    <h2>即将为您创建 {{game_info.name}} 的订单:</h2>
+                    <h2>即将为您创建 {{ game_info.name }} 的订单:</h2>
                   </v-card-title>
-                  <br />
+                  <br/>
                   <v-card-text>
-                    <h4>{{game_info.describe}}</h4>
+                    <h4>{{ game_info.describe }}</h4>
                   </v-card-text>
                   <v-card-subtitle>
-                    <h3>此商品的价格为: {{game_info.price}} ￥</h3>
+                    <h3>此商品的价格为: {{ game_info.price }} ￥</h3>
                   </v-card-subtitle>
-                  <br />
+                  <br/>
                   <v-card-subtitle>
-                    <h3>您账户当前的余额为 {{balance}} ￥</h3>
+                    <h3>您账户当前的余额为 {{ balance }} ￥</h3>
                   </v-card-subtitle>
                   <v-card-subtitle>
                     <v-checkbox v-model="forYourself" disabled label="为自己购买"></v-checkbox>
                   </v-card-subtitle>
-                  <br />
+                  <br/>
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="success" @click="myPurchaseGame(true)">直接购买</v-btn>
@@ -148,12 +149,12 @@
             :color="payNowSuccess ? 'teal darken-2' : 'purple darken-1'"
             top
         >
-            <h3 v-if="payNowSuccess">
-              支付成功，游戏已为您添加到库
-            </h3>
-            <h3 v-else>
-              支付失败，余额不足
-            </h3>
+          <h3 v-if="payNowSuccess">
+            支付成功，游戏已为您添加到库
+          </h3>
+          <h3 v-else>
+            支付失败，余额不足
+          </h3>
           <template v-slot:action="{ attrs }">
             <v-btn
                 color="black"
@@ -192,7 +193,9 @@
 
 <script>
 import {get_game_info, purchase_game} from "@/api/game.js"
-import { get_user_balance, get_owned_games } from "@/api/user.js"
+import {get_user_balance, get_owned_games} from "@/api/user.js"
+import {creat_comment, delete_comment, get_comment_list} from "@/api/comment.js"
+
 export default {
   name: "game",
   data() {
@@ -207,6 +210,7 @@ export default {
       payNowSuccess: true,
       owned_list: [],
       isUserOwned: false,
+      comment_list: []
     }
   },
 
@@ -218,9 +222,17 @@ export default {
     })
     this.owned_list = res.data
     this.isUserOwned = this.isOwned()
+    this.myGetComments()
   },
 
   methods: {
+    async myGetComments () {
+      let res = await get_comment_list({
+        game: this.gameId
+      })
+      console.log(res)
+    },
+
     async getInfo() {
       let res = await get_game_info({
         game: this.gameId
