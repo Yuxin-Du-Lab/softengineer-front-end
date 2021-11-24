@@ -74,3 +74,22 @@ function handleException(response) {
 Vue.config.errorHandler = errorHandler
 Vue.prototype.$throw = (error) => errorHandler(error, this)
 
+export const getLocalTime = (utcTime, isHour, isTimeStamp) => {
+    if (utcTime === null || utcTime === undefined) {
+        return '无'
+    } else {
+        let date
+        if (isTimeStamp) {
+            date = new Date(utcTime * 1000)
+        } else {
+            date = new Date(utcTime)
+        }
+        const second = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
+        const min = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
+        const hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
+        if (isHour) {
+            return `${hour}:${min}:${second}`
+        }
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${hour}:${min}:${second}`
+    }
+}

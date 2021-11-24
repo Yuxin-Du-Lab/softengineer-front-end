@@ -35,7 +35,7 @@
                   System Support
                 </v-card-title>
                 <v-row>
-                  <v-col cols="6" v-for="system in game_info.supportSystems">
+                  <v-col cols="6" v-for="(system, index) in game_info.supportSystems" :key="index">
                     <v-card-subtitle class="text-h5">
                       {{ system.name }}<br/>
                       Memory: {{ system.memory }}<br/>
@@ -141,6 +141,133 @@
         </v-btn>
       </v-col>
     </v-row>
+    <v-row justify="center" type="flex">
+      <v-col cols="8">
+        <v-card color="blue-grey darken-4">
+          <v-card-title>
+            <h2>评价</h2><v-spacer></v-spacer>
+            <v-btn color="green darken-4" @click="dialog=true;replyId = null">
+              发表评论
+            </v-btn>
+          </v-card-title>
+          <v-row v-for="item in comment_list" key="item.id" v-if="item.replyId===null" justify="center" type="flex">
+            <v-col cols="10">
+              <v-card color="blue-grey darken-2">
+                <v-card-title>
+                  <v-icon>
+                    mdi-message-reply-text-outline
+                  </v-icon>
+                  {{item.title}}
+                </v-card-title>
+                <v-card-subtitle>
+                  发布者: {{item.authorNickname}}
+                </v-card-subtitle>
+                <v-card-text>
+                  <h4>{{item.content}}</h4>
+                </v-card-text>
+                <v-card-actions>
+                    <span style="font-size:10px; color: grey; margin: 0 20px 0 20px;">{{toLocalTime(item.createTime)}}</span>
+                    <v-spacer></v-spacer>
+                    <v-btn icon @click="dialog=true;replyId = item.id">
+                      <v-icon>mdi-chat-plus-outline</v-icon>
+                    </v-btn>
+                    <v-btn icon @click="deleteId=item.id;showIsDelete=true" v-if="userId===item.authorId">
+                      <v-icon>mdi-trash-can-outline</v-icon>
+                    </v-btn>
+                </v-card-actions>
+                <v-row v-for="subitem in comment_list" key="subitem.id" v-if="subitem.replyId===item.id">
+                  <v-col cols="12">
+                    <v-card color="blue-grey darken-3">
+                      <v-card-title>
+                        {{subitem.title}}
+                      </v-card-title>
+                      <v-card-subtitle>
+                        发布者: {{subitem.authorNickname}}
+                      </v-card-subtitle>
+                      <v-card-text>
+                        <h4>{{subitem.content}}</h4>
+                      </v-card-text>
+                      <v-card-subtitle>
+                        {{toLocalTime(subitem.createTime)}}
+                      </v-card-subtitle>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn icon @click="deleteId=subitem.id;showIsDelete=true" v-if="userId===subitem.authorId">
+                          <v-icon>mdi-trash-can-outline</v-icon>
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-dialog
+        v-model="dialog"
+        width="500"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          发表评论
+        </v-card-title>
+
+        <v-card-text>
+          <v-input>
+            <v-text-field label="标题" v-model="comment_title"></v-text-field>
+          </v-input>
+          <v-textarea label="评论内容" v-model="comment_content"></v-textarea>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+              color="cyan darken-3"
+              @click="dialog=false;comment_content='';comment_title='';replyId=null"
+          >
+            取消
+          </v-btn>
+          <v-btn
+              color="success"
+              @click="addComment"
+          >
+            提交
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog
+        v-model="showIsDelete"
+        width="500"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          确认删除
+        </v-card-title>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+              color="cyan darken-3"
+              @click="showIsDelete=false;deleteId=null"
+          >
+            取消
+          </v-btn>
+          <v-btn
+              color="error"
+              @click="deleteComment(deleteId);showIsDelete=false"
+          >
+            确认
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-row>
       <v-col cols="12">
         <v-snackbar
@@ -195,6 +322,7 @@
 import {get_game_info, purchase_game} from "@/api/game.js"
 import {get_user_balance, get_owned_games} from "@/api/user.js"
 import {creat_comment, delete_comment, get_comment_list} from "@/api/comment.js"
+import {getLocalTime} from "@/units/api.js"
 
 export default {
   name: "game",
@@ -210,7 +338,14 @@ export default {
       payNowSuccess: true,
       owned_list: [],
       isUserOwned: false,
-      comment_list: []
+      comment_list: [],
+      comment_content: '',
+      comment_title: '',
+      dialog: false,
+      replyId: null,
+      showIsDelete: false,
+      deleteId: null,
+      userId: this.$store.getters.Id
     }
   },
 
@@ -226,11 +361,36 @@ export default {
   },
 
   methods: {
+    toLocalTime(time) {
+      return getLocalTime(time)
+    },
+
+    async deleteComment(id) {
+      let res = await delete_comment({
+        id: id
+      })
+      this.myGetComments()
+    },
+
+    async addComment() {
+      this.dialog = false
+      let res = await creat_comment({
+        content: this.comment_content,
+        gameId: this.gameId,
+        reply: this.replyId,
+        title: this.comment_title
+      })
+      this.comment_content = ''
+      this.comment_title = ''
+      this.replyId = null
+      this.myGetComments()
+    },
+
     async myGetComments () {
       let res = await get_comment_list({
         game: this.gameId
       })
-      console.log(res)
+      this.comment_list = res.data
     },
 
     async getInfo() {
