@@ -190,10 +190,8 @@
                       <v-card-text>
                         <h4>{{subitem.content}}</h4>
                       </v-card-text>
-                      <v-card-subtitle>
-                        {{toLocalTime(subitem.createTime)}}
-                      </v-card-subtitle>
                       <v-card-actions>
+                        <span style="font-size:10px; color: grey; margin: 0 20px 0 20px;">{{toLocalTime(subitem.createTime)}}</span>
                         <v-spacer></v-spacer>
                         <v-btn icon @click="deleteId=subitem.id;showIsDelete=true" v-if="userId==subitem.authorId">
                           <v-icon>mdi-trash-can-outline</v-icon>
