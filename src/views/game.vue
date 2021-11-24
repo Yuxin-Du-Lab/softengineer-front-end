@@ -150,7 +150,7 @@
               发表评论
             </v-btn>
           </v-card-title>
-          <v-row v-for="item in comment_list" key="item.id" v-if="item.replyId===null" justify="center" type="flex">
+          <v-row v-for="item in comment_list" :key="item.id" v-if="item.replyId===null" justify="center" type="flex">
             <v-col cols="10">
               <v-card color="blue-grey darken-2">
                 <v-card-title>
@@ -171,11 +171,11 @@
                     <v-btn icon @click="dialog=true;replyId = item.id">
                       <v-icon>mdi-chat-plus-outline</v-icon>
                     </v-btn>
-                    <v-btn icon @click="deleteId=item.id;showIsDelete=true" v-if="userId===item.authorId">
+                    <v-btn icon @click="deleteId=item.id;showIsDelete=true" v-if="userId==item.authorId">
                       <v-icon>mdi-trash-can-outline</v-icon>
                     </v-btn>
                 </v-card-actions>
-                <v-row v-for="subitem in comment_list" key="subitem.id" v-if="subitem.replyId===item.id">
+                <v-row v-for="subitem in comment_list" :key="subitem.id" v-if="subitem.replyId===item.id">
                   <v-col cols="12">
                     <v-card color="blue-grey darken-3">
                       <v-card-title>
@@ -192,7 +192,7 @@
                       </v-card-subtitle>
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn icon @click="deleteId=subitem.id;showIsDelete=true" v-if="userId===subitem.authorId">
+                        <v-btn icon @click="deleteId=subitem.id;showIsDelete=true" v-if="userId==subitem.authorId">
                           <v-icon>mdi-trash-can-outline</v-icon>
                         </v-btn>
                       </v-card-actions>
@@ -345,16 +345,16 @@ export default {
       replyId: null,
       showIsDelete: false,
       deleteId: null,
-      userId: this.$store.getters.Id
+      userId: null
     }
   },
 
   async mounted() {
     this.gameId = this.$route.query.game_id;
+    this.userId = this.$store.getters.Id
     this.getInfo();
-    this.getOwnedGames()
-    this.isUserOwned = this.isOwned()
-    this.myGetComments()
+    await this.getOwnedGames()
+    await this.myGetComments()
   },
 
   methods: {
@@ -363,6 +363,7 @@ export default {
         user: this.$store.getters.Id
       })
       this.owned_list = res.data
+      this.isUserOwned = this.isOwned()
     },
 
     toLocalTime(time) {
@@ -373,7 +374,7 @@ export default {
       let res = await delete_comment({
         id: id
       })
-      this.myGetComments()
+      await this.myGetComments()
     },
 
     async addComment() {
@@ -387,7 +388,7 @@ export default {
       this.comment_content = ''
       this.comment_title = ''
       this.replyId = null
-      this.myGetComments()
+      await this.myGetComments()
     },
 
     async myGetComments () {
@@ -431,7 +432,6 @@ export default {
 
     isOwned() {
       let vm = this
-      console.log('this.owned_list', this.owned_list)
       let newList = this.owned_list.filter(function (item) {
         return item.id == vm.gameId;
       })
