@@ -432,6 +432,9 @@ export default {
 
     isOwned() {
       let vm = this
+      if (this.userId == undefined) {
+        return false
+      }
       let newList = this.owned_list.filter(function (item) {
         return item.id == vm.gameId;
       })
