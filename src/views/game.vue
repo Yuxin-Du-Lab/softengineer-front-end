@@ -146,8 +146,11 @@
         <v-card color="blue-grey darken-4">
           <v-card-title>
             <h2>评价</h2><v-spacer></v-spacer>
-            <v-btn color="green darken-4" @click="dialog=true;replyId = null">
+            <v-btn color="green darken-4" @click="dialog=true;replyId = null" v-if="userId!=null">
               发表评论
+            </v-btn>
+            <v-btn color="green darken-4" disabled v-else>
+              登录后评论
             </v-btn>
           </v-card-title>
           <v-row v-for="item in comment_list" :key="item.id" v-if="item.replyId===null" justify="center" type="flex">
