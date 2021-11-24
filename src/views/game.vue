@@ -352,15 +352,19 @@ export default {
   async mounted() {
     this.gameId = this.$route.query.game_id;
     this.getInfo();
-    let res = await get_owned_games({
-      user: this.$store.getters.Id
-    })
-    this.owned_list = res.data
+    this.getOwnedGames()
     this.isUserOwned = this.isOwned()
     this.myGetComments()
   },
 
   methods: {
+    async getOwnedGames() {
+      let res = await get_owned_games({
+        user: this.$store.getters.Id
+      })
+      this.owned_list = res.data
+    },
+
     toLocalTime(time) {
       return getLocalTime(time)
     },
@@ -427,6 +431,7 @@ export default {
 
     isOwned() {
       let vm = this
+      console.log('this.owned_list', this.owned_list)
       let newList = this.owned_list.filter(function (item) {
         return item.id == vm.gameId;
       })
