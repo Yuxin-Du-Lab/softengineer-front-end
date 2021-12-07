@@ -59,13 +59,24 @@
           </v-row>
 
           <v-card>
-            <v-card-title v-show="game_info.multiPlayer" class="text-h5">
-              <v-icon>mdi-account-multiple-check</v-icon>
-              &nbsp;&nbsp;Support Multi Player
-            </v-card-title>
-            <v-card-title v-show="!game_info.multiPlayer" class="text-h5">
-              <v-icon>mdi-account-multiple-remove</v-icon>
-              &nbsp;&nbsp;Just Single Player
+            <v-card-title class="text-h5">
+              <div v-show="game_info.multiPlayer">
+                <v-icon>mdi-account-multiple-check</v-icon>
+                &nbsp;&nbsp;Support Multi Player
+              </div>
+              <div v-show="!game_info.multiPlayer">
+                <v-icon>mdi-account-multiple-remove</v-icon>
+                &nbsp;&nbsp;Just Single Player
+              </div>
+              <v-spacer></v-spacer>
+              <router-link :to="{name:'workshop', query:{game_id: gameId}}" style="text-decoration: none;color: teal">
+                <div>
+                  <v-icon>
+                    mdi-cart-arrow-down
+                  </v-icon>
+                  &nbsp;&nbsp;创意工坊
+                </div>
+              </router-link>
             </v-card-title>
           </v-card>
         </v-card>

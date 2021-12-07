@@ -10,6 +10,9 @@ import wareHouse from "../views/wareHouse";
 import userServe from "../views/userServe";
 import game from "@/views/game.vue";
 import friends from "../views/friends";
+import {getUserInfo} from "@/api/user.js"
+import store from "../store/store";
+import workshop from "../views/workshop";
 
 Vue.use(VueRouter)
 
@@ -58,12 +61,17 @@ const routes = [
       {
         path: 'game',
         name: 'game',
-        component: game
+        component: game,
       },
       {
         path: 'friends',
         name: 'friends',
         component: friends
+      },
+      {
+        path: 'workshop',
+        name: 'workshop',
+        component: workshop
       }
     ]
   },
@@ -75,20 +83,15 @@ const router = new VueRouter({
   routes
 })
 
-// ·������
-// router.beforeEach((to, from, next) => {
-//
-//   if (to.path === '/login') {
-//     next();
-//   } else {
-//     let token = localStorage.getItem('Authorization');
-//
-//     if (token === null || token === '') {
-//       next('/login');
-//     } else {
-//       next();
-//     }
-//   }
-// });
+router.beforeEach(async function (to, from, next) {
+  let res = await getUserInfo()
+  const isLoss = res.data.code === 1003
+  console.log(isLoss)
+  if (isLoss && store.getters.TokenStored!=='') {
+    store.commit('logout')
+  }
+  next()
+});
+
 
 export default router

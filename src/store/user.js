@@ -32,7 +32,7 @@ const user = {
             state.userInfo = {
                 username: '',
                 nickname: '',
-                gameId: null,
+                id: '',
             }
             sessionStorage.removeItem('token')
             sessionStorage.removeItem('username')
