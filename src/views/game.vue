@@ -27,6 +27,16 @@
                 <v-card-subtitle class="text-h5">
                   {{ game_info.describe }}
                 </v-card-subtitle>
+                <v-card-text>
+                  <v-chip-group column>
+                    <v-icon>
+                      mdi-pound
+                    </v-icon>
+                    <v-chip v-for="item in tagsOfGame" :key="item.id" color="teal darken-4" :style="{'pointer-events': 'none'}">
+                      {{item.name}}
+                    </v-chip>
+                  </v-chip-group>
+                </v-card-text>
               </v-card>
             </v-col>
             <v-col cols="12">
@@ -324,7 +334,7 @@ import {get_game_info, purchase_game} from "@/api/game.js"
 import {get_user_balance, get_owned_games} from "@/api/user.js"
 import {creat_comment, delete_comment, get_comment_list} from "@/api/comment.js"
 import {getLocalTime} from "@/units/api.js"
-
+import {list_tag_of_game} from "@/api/tag.js"
 export default {
   name: "game",
   data() {
@@ -346,7 +356,8 @@ export default {
       replyId: null,
       showIsDelete: false,
       deleteId: null,
-      userId: null
+      userId: null,
+      tagsOfGame: [],
     }
   },
 
@@ -356,9 +367,17 @@ export default {
     this.getInfo();
     await this.getOwnedGames()
     await this.myGetComments()
+    await this.getTagListOfGame()
   },
 
   methods: {
+    async getTagListOfGame() {
+      let res = await list_tag_of_game({
+        game: this.gameId
+      })
+      this.tagsOfGame = res.data
+    },
+
     async getOwnedGames() {
       let res = await get_owned_games({
         user: this.$store.getters.Id
