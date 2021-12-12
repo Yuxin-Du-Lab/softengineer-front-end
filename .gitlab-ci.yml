@@ -10,7 +10,6 @@ build:
     - myserver
   script:
     - docker build -t "$PROJECT_NAME:ci_job_$CI_PIPELINE_ID" .
-    - docker image ls
 
 deploy:
   stage: deploy
@@ -21,6 +20,3 @@ deploy:
   script:
     - docker stop $PROJECT_NAME && docker rm $PROJECT_NAME || true
     - docker run --restart=unless-stopped --name=$PROJECT_NAME -d -p 8111:8000 "$PROJECT_NAME:ci_job_$CI_PIPELINE_ID"
-    - docker ps
-    - old_images=$((docker image ls | grep $PROJECT_NAME | grep -v $(docker image ls | grep $PROJECT_NAME | awk '{print $2}' | awk -F_ '{print $3}' | sort -rn | head -2 | xargs | sed 's/ /\\|/g') || true) | awk '{print $3}') ; if [ -n "$old_images" ]; then docker image rm $old_images ; fi ; unset old_images
-    - docker image ls
