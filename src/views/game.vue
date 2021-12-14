@@ -192,7 +192,7 @@
                 <v-card-actions>
                     <span style="font-size:10px; color: grey; margin: 0 20px 0 20px;">{{toLocalTime(item.createTime)}}</span>
                     <v-spacer></v-spacer>
-                    <v-btn icon @click="dialog=true;replyId = item.id">
+                    <v-btn icon @click="dialog=true;replyId = item.id" :disabled="userId==''">
                       <v-icon>mdi-chat-plus-outline</v-icon>
                     </v-btn>
                     <v-btn icon @click="deleteId=item.id;showIsDelete=true" v-if="userId==item.authorId">
