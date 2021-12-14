@@ -167,7 +167,7 @@
         <v-card color="blue-grey darken-4">
           <v-card-title>
             <h2>评价</h2><v-spacer></v-spacer>
-            <v-btn color="green darken-4" @click="dialog=true;replyId = null" v-if="userId!=null">
+            <v-btn color="green darken-4" @click="dialog=true;replyId = null" v-if="userId!=''">
               发表评论
             </v-btn>
             <v-btn color="green darken-4" disabled v-else>
@@ -463,7 +463,7 @@ export default {
 
     isOwned() {
       let vm = this
-      if (this.userId == undefined) {
+      if (this.userId == '') {
         return false
       }
       let newList = this.owned_list.filter(function (item) {
