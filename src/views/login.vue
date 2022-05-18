@@ -59,21 +59,16 @@
                 </v-btn>
               </v-card-actions>
             </v-row>
-
-
           </v-card>
         </v-col>
-
       </v-row>
     </div>
   </div>
 </template>
 
 <script>
-import { login, getUserInfo } from "@/api/user.js";
-import {hex_md5} from '@/api/md5.js';
-import {get_file_img} from "../api/file";
-import {getImgUrl} from "../api/user";
+import { login, get_user_status } from "@/api/user.js";
+import { mdiAccount } from '@mdi/js';
 
 export default {
   name: "login",
@@ -85,7 +80,6 @@ export default {
       hidePassword: true,
       error: false,
       img_url: '',
-      // imageName: 'end.png',
       path: '',
       str: '',
       login: {
@@ -102,46 +96,19 @@ export default {
       let vm = this;
       let res = await login({
         username: vm.username,
-        password: hex_md5(vm.password),
+        password: vm.password,
       });
-      // console.log(res)
-      if (res.data.token) {
+      console.log(res)
+      if (res.data === "用户名或密码错误") {
+        alert(res.data)
+      } else if (res.data.token) {
         this.$store.commit('setToken', res.data.token)
-        let user = await getUserInfo()
-        // console.log(user)
-        this.$store.commit('setUser', user.data)
-
-        await this.getUrl()
-        // await this.myGetImg()
-        this.$store.commit('setImgUrl', this.img_url)
-        this.$router.push({path: '/mainPage'})
+        this.$store.commit('setUser', res.data)
+        await this.$router.push({path: '/mainPage'})
       } else {
         alert(res.data.message)
       }
     },
-
-    // async myGetImg() {
-    //   if (this.imageName) {
-    //     this.img_url = await get_file_img({
-    //       imageName: this.imageName,
-    //     })
-    //   } else {
-    //     this.imageName = 'end.png'
-    //   }
-    // },
-
-    async getUrl() {
-      const id = this.$store.getters.Id;
-      // this.path = /(?<=http:\/\/49.235.193.150:8112\/file\/image\/).+$/
-
-      let res = await getImgUrl({
-        user: id
-      })
-      // console.log(res)
-      // this.str = res.data
-      // this.imageName = this.path.exec(this.str)
-      this.img_url = res.data
-    }
   },
 };
 </script>

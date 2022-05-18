@@ -150,7 +150,6 @@
 
 <script>
 import {register} from "../api/user";
-import {hex_md5} from "../api/md5";
 
 export default {
   name: "register",
@@ -208,13 +207,11 @@ export default {
         }
         let res = await register({
           username: vm.username,
-          password: hex_md5(vm.password),
+          password: vm.password,
           nickname: vm.nickname,
         });
-        if (res.data.code === 0) {
-          alert("success");
-          this.$router.push({path: '/login'});
-        }
+        alert("success");
+        this.$router.push({path: '/login'});
     }
   }
 }

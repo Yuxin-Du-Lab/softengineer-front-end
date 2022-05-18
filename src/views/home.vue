@@ -1,103 +1,60 @@
 <template>
-  <v-app>
-    <v-app-bar app color="blue-grey darken-2" dark>
-      <v-container>
-        <v-row type="flex" align="center">
-          <v-col cols="1">
-            <v-img
-                alt="Logo"
-                class="shrink mr-2"
-                contain
-                src="@/assets/logo.jpg"
-                transition="scale-transition"
-                min-width="70"
-                width="70"
-                style="cursor:pointer"
-                @click="toHome"
-            >
-            </v-img>
-          </v-col>
-          <v-col cols="2">
-            <v-img
-                alt="Name"
-                class="shrink mt-1"
-                contain
-                min-width="100"
-                src="@/assets/title.svg"
-                width="200"
-                style="cursor:pointer"
-                @click="toHome"
-            />
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col cols="1">
-            <v-btn x-large app collapse-on-scroll to="/test"> 测试</v-btn>
-          </v-col>
-          <v-col cols="1">
-            <v-btn x-large app collapse-on-scroll @click="myUserData"> 登录</v-btn>
-          </v-col>
-          <v-col cols="1">
-            <v-btn x-large app collapse-on-scroll @click="myLogout" to="/mainPage"> 注销</v-btn>
-          </v-col>
-          <v-col cols="2">
-            <v-card color="#385F73" style="cursor:pointer" @click="myUserData">
-              <v-card-subtitle>
-                <v-icon>mdi-account</v-icon>
-                {{ $store.getters.NickName ? $store.getters.NickName : '您尚未登录' }}
-              </v-card-subtitle>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-app-bar>
-    <v-main>
-      <router-view/>
-    </v-main>
-  </v-app>
+  <div class="lzr" :style ="home">
+    <v-row justify="center" align="center">
+      <v-col cols="4">
+        <v-card class="title" color="green darken-4">
+          <v-card-title>
+            <h2 style="justify-self: center">欢迎来到下岗机器人再就业主页</h2>
+          </v-card-title>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row justify="center" align="center">
+      <v-col cols="4">
+        <v-img
+            max-height="2048"
+            max-width="2048"
+            src="../assets/help-robot.jpg"
+        ></v-img>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
-import {logout} from "@/api/user.js";
 
 export default {
-  name: "home",
+  name: 'mainPage',
 
   data() {
-    return {}
+    return {
+      gameList: null,
+      home: {
+        backgroundImage:"url(" + require("../assets/background2.jpg") + ")",
+        backgroundSize: "cover",
+        width: "100%",
+        height: "120%",
+      },
+    }
+  },
+
+  created() {
   },
 
   methods: {
-    toHome() {
-      this.$router.push("/mainPage").catch((error) => {
-        console.log('已在主页')
-      });
-    },
-
-    async myLogout() {
-      const Token = this.$store.getters.TokenStored;
-      if (Token) {
-        let res = await logout();
-        this.$store.commit('logout')
-        alert('注销成功！')
-      } else {
-        alert('您尚未登录')
-      }
-    },
-
-    async myUserData() {
-      const Token = this.$store.getters.TokenStored;
-      if (Token) {
-        await this.$router.push({path: '/userData'})
-      } else {
-        await this.$router.push({path: '/login'})
-      }
-    },
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
-.bar {
-  margin: 5px 5px 5px 5px;
+.lzr{
+  margin-top: -4rem;
+}
+
+.title{
+  margin-top: 4rem;
+  background:radial-gradient(mediumslateblue, darkslategray);
+  transform:scale(.85,.85);
+  box-shadow: 2px 2px 2px 1px #aa0000;
 }
 </style>

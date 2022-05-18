@@ -49,22 +49,19 @@ axios.interceptors.response.use(function (response) {
     if (response.status != 200) {
         console.log('error happened')
         switch (response.status) {
-            case 201:
-                handleException(response)
-            case 204:
-                handleException(response)
-            case 401:
-                handleException(response)
-            case 403:
-                handleException(response)
-            case 404:
-                handleException(response)
+            case 500:
+                userException(response)
             default:
                 handleException(response)
         }
     }
     // return Promise.reject(error);
 });
+
+function userException(response) {
+    alert(response.data)
+    // throw new Error(response.data)
+}
 
 function handleException(response) {
     console.log('default')

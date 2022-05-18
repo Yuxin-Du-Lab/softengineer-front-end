@@ -2,18 +2,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from '@/App.vue'
 import login from '@/views/login.vue'
-import test from '@/views/test.vue';
-import mainPage from '@/views/mainPage.vue';
+import mainPage from '@/views/home.vue';
 import register from "../views/register";
-import userData from "../views/userData";
-import wareHouse from "../views/wareHouse";
-import userServe from "../views/userServe";
-import game from "@/views/game.vue";
-import friends from "../views/friends";
-// import {getUserInfo} from "@/api/user.js"
 import {get_user_status} from "@/api/user.js"
 import store from "../store/store";
-import workshop from "../views/workshop";
 
 Vue.use(VueRouter)
 
@@ -30,11 +22,6 @@ const routes = [
         component: login
       },
       {
-        path: 'test',
-        name: 'test',
-        component: test
-      },
-      {
         path: 'mainPage',
         name: 'mainPage',
         component: mainPage
@@ -43,36 +30,6 @@ const routes = [
         path: 'register',
         name: 'register',
         component: register
-      },
-      {
-        path: 'userData',
-        name: 'userData',
-        component: userData
-      },
-      {
-        path: 'wareHouse',
-        name: 'wareHouse',
-        component: wareHouse
-      },
-      {
-        path: 'userServe',
-        name: 'userServe',
-        component: userServe
-      },
-      {
-        path: 'game',
-        name: 'game',
-        component: game,
-      },
-      {
-        path: 'friends',
-        name: 'friends',
-        component: friends
-      },
-      {
-        path: 'workshop',
-        name: 'workshop',
-        component: workshop
       }
     ]
   },

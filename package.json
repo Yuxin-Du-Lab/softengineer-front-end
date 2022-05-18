@@ -5,9 +5,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "env VUE_APP_API_URL=http://49.235.193.150:8112 VERSION=Dev vue-cli-service build",
-    "serve-dev": "env VUE_APP_API_URL=http://127.0.0.1:8200 VERSION=DevServe vue-cli-service serve"
+    "serve-dev": "env VUE_APP_API_URL=http://49.235.193.150:30820 VERSION=DevServe vue-cli-service serve"
   },
   "dependencies": {
+    "@mdi/js": "^6.7.96",
     "axios": "^0.21.4",
     "core-js": "^3.6.5",
     "js-cookie": "^3.0.1",
