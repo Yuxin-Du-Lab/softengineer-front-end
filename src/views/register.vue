@@ -30,25 +30,25 @@
               </v-col>
             </v-row>
 
-            <v-row align="center" justify="center">
-              <v-col md="6">
-                <v-text-field name="userEmail"
-                              v-model="userEmail"
-                              label="邮箱"
-                              :rules="[rules.required]"
-                              hide-details="auto"></v-text-field>
-              </v-col>
-            </v-row>
+<!--            <v-row align="center" justify="center">-->
+<!--              <v-col md="6">-->
+<!--                <v-text-field name="userEmail"-->
+<!--                              v-model="userEmail"-->
+<!--                              label="邮箱"-->
+<!--                              :rules="[rules.required]"-->
+<!--                              hide-details="auto"></v-text-field>-->
+<!--              </v-col>-->
+<!--            </v-row>-->
 
-            <v-row align="center" justify="center">
-              <v-col md="6">
-                <v-text-field name="phone"
-                              v-model="phone"
-                              label="电话号码"
-                              :rules="[rules.required]"
-                              hide-details="auto"></v-text-field>
-              </v-col>
-            </v-row>
+<!--            <v-row align="center" justify="center">-->
+<!--              <v-col md="6">-->
+<!--                <v-text-field name="phone"-->
+<!--                              v-model="phone"-->
+<!--                              label="电话号码"-->
+<!--                              :rules="[rules.required]"-->
+<!--                              hide-details="auto"></v-text-field>-->
+<!--              </v-col>-->
+<!--            </v-row>-->
 
             <v-row align="center" justify="center">
               <v-col md="6">
@@ -84,56 +84,55 @@
             </v-row>
 
 
-            <v-row align="center" justify="center">
-              <v-col md="6">
-                <template>
-                  <div>
-                    <v-menu
-                        ref="menu"
-                        v-model="menu"
-                        :close-on-content-click="false"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="auto"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                            v-model="date"
-                            label="Birthday date"
-                            prepend-icon="mdi-calendar"
-                            readonly
-                            v-bind="attrs"
-                            v-on="on"
-                        ></v-text-field>
-                      </template>
-                      <v-date-picker
-                          v-model="date"
-                          :active-picker.sync="activePicker"
-                          :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"
-                          min="1950-01-01"
-                          @change="save"
-                      ></v-date-picker>
-                    </v-menu>
-                  </div>
-                </template>
-              </v-col>
-            </v-row>
+<!--            <v-row align="center" justify="center">-->
+<!--              <v-col md="6">-->
+<!--                <template>-->
+<!--                  <div>-->
+<!--                    <v-menu-->
+<!--                        ref="menu"-->
+<!--                        v-model="menu"-->
+<!--                        :close-on-content-click="false"-->
+<!--                        transition="scale-transition"-->
+<!--                        offset-y-->
+<!--                        min-width="auto"-->
+<!--                    >-->
+<!--                      <template v-slot:activator="{ on, attrs }">-->
+<!--                        <v-text-field-->
+<!--                            v-model="date"-->
+<!--                            label="Birthday date"-->
+<!--                            prepend-icon="mdi-calendar"-->
+<!--                            readonly-->
+<!--                            v-bind="attrs"-->
+<!--                            v-on="on"-->
+<!--                        ></v-text-field>-->
+<!--                      </template>-->
+<!--                      <v-date-picker-->
+<!--                          v-model="date"-->
+<!--                          :active-picker.sync="activePicker"-->
+<!--                          :max="(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)"-->
+<!--                          min="1950-01-01"-->
+<!--                          @change="save"-->
+<!--                      ></v-date-picker>-->
+<!--                    </v-menu>-->
+<!--                  </div>-->
+<!--                </template>-->
+<!--              </v-col>-->
+<!--            </v-row>-->
+
+<!--            <v-row align="center" justify="center">-->
+<!--              <v-col md="6">-->
+<!--                  <v-checkbox-->
+<!--                      v-model="checkbox"-->
+<!--                      :label="`我已阅读并同意用户须知`"-->
+<!--                  ></v-checkbox>-->
+<!--              </v-col>-->
+<!--            </v-row>-->
 
             <v-row align="center" justify="center">
-              <v-col md="6">
-                  <v-checkbox
-                      v-model="checkbox"
-                      :label="`我已阅读并同意用户须知`"
-                  ></v-checkbox>
-              </v-col>
-            </v-row>
-
-            <v-row align="center" justify="center">
-              <v-col md="3">
+              <v-col md="3" align="center" justify="center">
                 <v-btn
-                    outlined
                     rounded
-                    text
+                    large
                     color="deep-purple lighten-2"
                     @click="myRegister"
                 >
@@ -199,11 +198,11 @@ export default {
 
     async myRegister() {
         let vm = this;
-        if (!vm.checkbox) {
-          alert("请阅读用户须知");
-          return
-        }
-        if (vm.password != vm.passwordAgain) {
+        // if (!vm.checkbox) {
+        //   alert("请阅读用户须知");
+        //   return
+        // }
+        if (vm.password !== vm.passwordAgain) {
           alert("两次密码输入不正确");
           return
         }
@@ -211,11 +210,8 @@ export default {
           username: vm.username,
           password: hex_md5(vm.password),
           nickname: vm.nickname,
-          email: vm.userEmail,
-          phone: vm.phone,
-          birthday: vm.date,
         });
-        if (res.data.code == 0) {
+        if (res.data.code === 0) {
           alert("success");
           this.$router.push({path: '/login'});
         }
@@ -226,6 +222,7 @@ export default {
 
 <style scoped>
 .lzr{
+  margin-top: 4rem;
   background:radial-gradient(gray, darkslateblue);
   transform:scale(.85,.85);
   box-shadow: 2px 2px 2px 1px #aa0000;

@@ -14,6 +14,15 @@ const api_urls = {
     get_user_balance: '/user/balance',
     get_owned_game: '/user/ownedGames',
     get_order_list: '/user/listOrders',
+    get_user_status: '/auth/status'
+}
+
+export async function get_user_status() {
+    return await request({
+        url: api_urls.get_user_status,
+        method: 'get',
+        params: {}
+    })
 }
 
 export async function get_order_list() {
