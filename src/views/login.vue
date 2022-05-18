@@ -92,7 +92,7 @@ export default {
         backgroundImage:"url(" + require("../assets/background2.jpg") + ")",
         backgroundSize: "cover",
         width: "100%",
-        height: "100%",
+        height: "120%",
       },
     };
   },

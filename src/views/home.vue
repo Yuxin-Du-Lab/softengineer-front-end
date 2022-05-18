@@ -23,7 +23,7 @@
                 class="shrink mt-1"
                 contain
                 min-width="100"
-                src="@/assets/name.png"
+                src="@/assets/title.svg"
                 width="200"
                 style="cursor:pointer"
                 @click="toHome"
