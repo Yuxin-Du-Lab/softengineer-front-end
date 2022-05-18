@@ -1,81 +1,71 @@
 <template>
-  <div class="all">
-<!--    <i class="fab fa-accessible-icon"></i>-->
-    <v-row justify="center" align="center">
-      <v-col md = "6">
-        <v-card elevation="4" outlined shaped>
-          <p class="text-center font-italic" style="margin-top: 2rem; font-size:25px">
-            Electric
-          </p>
+  <div class="login" :style ="login">
+    <div class="all">
+      <!--    <i class="fab fa-accessible-icon"></i>-->
+      <v-row justify="center" align="center">
+        <v-col md = "6">
 
-          <v-form class="form">
-            <v-text-field class="input"
-                append-icon="mdi-account"
-                name="username"
-                v-model="username"
-                label="用户名"
-                hide-details="auto"
-            ></v-text-field>
+          <v-card class="lzr" elevation="4" outlined shaped>
+            <p class="text-center" style="margin-top: 2rem; font-size:25px">
+              下岗机器人再就业
+            </p>
 
-            <v-text-field
-                class="input"
-                :type="hidePassword ? 'password' : 'text'"
-                :append-icon="hidePassword ? 'mdi-eye-off' : 'mdi-eye'"
-                name="password"
-                v-model="password"
-                label="密码"
-                @keyup.enter="myLogin"
-                id="password"
-                hide-details="auto"
-                @click:append="hidePassword = !hidePassword"
-            ></v-text-field>
-          </v-form>
+            <v-form class="form">
+              <v-text-field class="input"
+                            append-icon="mdi-account"
+                            name="username"
+                            v-model="username"
+                            label="用户名"
+                            hide-details="auto"
+              ></v-text-field>
 
-
-          <v-row class="row_of_btn">
-            <v-card-actions>
-              <v-btn
-                  outlined
-                  rounded
-                  text
-                  color="green darken-2"
-                  @click="myLogin"
-              >
-                登录
-              </v-btn>
-            </v-card-actions>
-
-            <v-card-actions>
-              <v-btn
-                  outlined
-                  rounded
-                  text
-                  color="deep-purple lighten-2"
-                  @click="reserve"
-              >
-                忘记密码
-              </v-btn>
-            </v-card-actions>
-
-            <v-card-actions>
-              <v-btn
-                  outlined
-                  rounded
-                  text
-                  color="deep-purple lighten-2"
-                  to="/register"
-              >
-                注册
-              </v-btn>
-            </v-card-actions>
-          </v-row>
+              <v-text-field
+                  class="input"
+                  :type="hidePassword ? 'password' : 'text'"
+                  :append-icon="hidePassword ? 'mdi-eye-off' : 'mdi-eye'"
+                  name="password"
+                  v-model="password"
+                  label="密码"
+                  @keyup.enter="myLogin"
+                  id="password"
+                  hide-details="auto"
+                  @click:append="hidePassword = !hidePassword"
+              ></v-text-field>
+            </v-form>
 
 
-        </v-card>
-      </v-col>
+            <v-row class="row_of_btn">
+              <v-card-actions>
+                <v-btn
+                    outlined
+                    rounded
+                    text
+                    color="green darken-2"
+                    @click="myLogin"
+                >
+                  登录
+                </v-btn>
+              </v-card-actions>
 
-    </v-row>
+              <v-card-actions>
+                <v-btn
+                    outlined
+                    rounded
+                    text
+                    color="deep-purple lighten-2"
+                    to="/register"
+                >
+                  注册
+                </v-btn>
+              </v-card-actions>
+            </v-row>
 
+
+          </v-card>
+        </v-col>
+
+      </v-row>
+    </div>
   </div>
 </template>
 
@@ -98,6 +88,12 @@ export default {
       // imageName: 'end.png',
       path: '',
       str: '',
+      login: {
+        backgroundImage:"url(" + require("../assets/background2.jpg") + ")",
+        backgroundSize: "cover",
+        width: "100%",
+        height: "100%",
+      },
     };
   },
 
@@ -122,10 +118,6 @@ export default {
       } else {
         alert(res.data.message)
       }
-    },
-
-    async reserve() {
-      //TODO:实现修改密码和忘记密码
     },
 
     // async myGetImg() {
@@ -167,7 +159,7 @@ export default {
 }
 
 .all {
-  margin-top: 9rem;
+  margin-top: -4rem;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -184,5 +176,8 @@ export default {
   width: 30rem;
   height: 5rem;
 }
-
+.lzr{
+  background:radial-gradient(gray, darkslateblue);
+  transform:translateY(150px);
+  box-shadow: 2px 2px 2px 1px #aa0000;    }
 </style>

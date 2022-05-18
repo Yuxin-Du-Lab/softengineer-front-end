@@ -84,12 +84,12 @@ const router = new VueRouter({
 })
 
 router.beforeEach(async function (to, from, next) {
-  let res = await getUserInfo()
-  const isLoss = res.data.code === 1003
-  console.log(isLoss)
-  if (isLoss && store.getters.TokenStored!=='') {
-    store.commit('logout')
-  }
+  // let res = await getUserInfo()
+  // const isLoss = res.data.code === 1003
+  // console.log(isLoss)
+  // if (isLoss && store.getters.TokenStored!=='') {
+  //   store.commit('logout')
+  // }
   next()
 });
 

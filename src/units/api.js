@@ -12,6 +12,7 @@ axios.defaults.baseURL = 'api'
 
 export async function request(options) {
     console.log('api.js run request')
+    console.log(options)
     let response
     let Token = store.getters.TokenStored
     console.log(Token)

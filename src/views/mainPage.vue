@@ -2,24 +2,7 @@
   <div>
     <v-row class="justify-center">
       <v-col cols="8">
-        <v-row v-for="item in gameList">
-          <v-col cols="12">
-            <router-link :to="{path:'game', query:{game_id: item.id}}" class="text-h6 transparent--text">
-              <v-card style="cursor:pointer" color="grey darken-4">
-                <v-card-title>
-                  {{ item.name }}
-                </v-card-title>
-                <v-card-subtitle>
-                  <v-row justify="end">
-                    <v-col cols="1" align-self="end">
-                      {{ item.price }} RMB
-                    </v-col>
-                  </v-row>
-                </v-card-subtitle>
-              </v-card>
-            </router-link>
-          </v-col>
-        </v-row>
+        <p>hello software: 下岗机器人再就业</p>
       </v-col>
     </v-row>
   </div>
@@ -38,7 +21,7 @@ export default {
   },
 
   created() {
-    this.myGetGame()
+    // this.myGetGame()
   },
 
   methods: {
