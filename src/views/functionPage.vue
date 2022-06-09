@@ -92,8 +92,8 @@ export default {
       let res = await get_ros_status()
       console.log(res)
       this.status = res.data
-      if (this.status !== "机器人未运行") {
-        this.disable_start = true
+      if (this.status === "机器人未运行") {
+        this.disable_start = false
       }
     },
 
