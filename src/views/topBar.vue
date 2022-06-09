@@ -31,6 +31,9 @@
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols="1">
+            <v-btn x-large app collapse-on-scroll color="blue" @click="toFunction"> 功能</v-btn>
+          </v-col>
+          <v-col cols="1">
             <v-btn x-large app collapse-on-scroll @click="myUserData"> 登录</v-btn>
           </v-col>
           <v-col cols="1">
@@ -90,6 +93,15 @@ export default {
         await this.$router.push({path: '/login'})
       }
     },
+
+    toFunction() {
+      const Token = this.$store.getters.TokenStored;
+      if (Token) {
+        this.$router.push("/functionPage")
+      } else {
+        alert('您尚未登录')
+      }
+    }
   },
 };
 </script>

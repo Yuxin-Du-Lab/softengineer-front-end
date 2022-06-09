@@ -4,6 +4,7 @@ import App from '@/App.vue'
 import login from '@/views/login.vue'
 import mainPage from '@/views/home.vue';
 import register from "../views/register";
+import functionPage from "../views/functionPage";
 import {get_user_status} from "@/api/user.js"
 import store from "../store/store";
 
@@ -30,6 +31,11 @@ const routes = [
         path: 'register',
         name: 'register',
         component: register
+      },
+      {
+        path: 'functionPage',
+        name: 'functionPage',
+        component: functionPage
       }
     ]
   },
